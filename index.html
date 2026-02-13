@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>San Valentín 💕</title>
+
+<style>
+body{
+    margin:0;
+    overflow:hidden;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(to bottom, #ffc0cb, #ff9ecf);
+    text-align:center;
+}
+
+/* Corazones flotando */
+.heart{
+    position:absolute;
+    color:red;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float{
+    0%{ transform: translateY(100vh); opacity:1; }
+    100%{ transform: translateY(-10vh); opacity:0; }
+}
+
+/* Animación bebé */
+.bebe{
+    font-size:50px;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-15px); }
+}
+
+h1{
+    margin-top:80px;
+    font-size:32px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    margin:20px;
+}
+
+#si{
+    background-color:#ff4d6d;
+    color:white;
+}
+
+#no{
+    background-color:gray;
+    color:white;
+    position:absolute;
+}
+
+#page2{
+    display:none;
+    margin-top:120px;
+    font-size:28px;
+    color:white;
+    text-shadow:0 0 10px #ff69b4;
+    white-space:pre-line;
+}
+
+#leerCarta{
+    display:none;
+}
+
+/* Carta */
+#carta{
+    opacity:0;
+    transition:opacity 2s ease;
+    margin:50px auto;
+    width:70%;
+    background:rgba(255,255,255,0.95);
+    padding:30px;
+    border-radius:20px;
+    color:#d63384;
+    font-size:20px;
+    box-shadow:0 0 25px rgba(255,105,180,0.7);
+    display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- Música instrumental (puedes cambiar el link por otra) -->
+<audio id="musica" loop>
+<source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Página 1 -->
+<div id="page1">
+    <h1>¿Quieres ser mi San Valentín Dayanara? 💖</h1>
+    <button id="si">SÍ 💕</button>
+    <button id="no">NO 😅</button>
+</div>
+
+<!-- Página 2 -->
+<div id="page2"></div>
+<button id="leerCarta">Leer carta 💌</button>
+
+<div id="carta"></div>
+
+<script>
+
+let botonSi = document.getElementById("si");
+let botonNo = document.getElementById("no");
+let page1 = document.getElementById("page1");
+let page2 = document.getElementById("page2");
+let leerCarta = document.getElementById("leerCarta");
+let carta = document.getElementById("carta");
+let musica = document.getElementById("musica");
+
+let size = 18;
+
+/* Botón NO huye */
+botonNo.onmouseover = function(){
+    let x = Math.random() * (window.innerWidth - 100);
+    let y = Math.random() * (window.innerHeight - 100);
+    botonNo.style.left = x + "px";
+    botonNo.style.top = y + "px";
+
+    size += 4;
+    botonSi.style.fontSize = size + "px";
+};
+
+/* Cuando presiona SÍ */
+botonSi.onclick = function(){
+    page1.style.display = "none";
+    page2.style.display = "block";
+    escribirMensaje();
+};
+
+/* Efecto máquina de escribir */
+function escribirMensaje(){
+    let texto = "Sabías que dirías que sí...\nTe amo A21D ❤️";
+    let i = 0;
+
+    function escribir(){
+        if(i < texto.length){
+            page2.innerHTML += texto.charAt(i);
+            i++;
+            setTimeout(escribir, 80);
+        } else {
+            leerCarta.style.display = "inline-block";
+        }
+    }
+    escribir();
+}
+
+/* Mostrar carta con animación y música */
+leerCarta.onclick = function(){
+    carta.style.display = "block";
+    setTimeout(()=>{ carta.style.opacity = 1; },100);
+
+    musica.play();
+
+    carta.innerHTML = `
+    <div class="bebe">👶</div>
+
+    Mi amor 💕
+
+    Este es nuestro primer San Valentín donde no somos 2... somos 3 🤍
+
+    Porque en tu pancita llevas nuestro bebé,
+    el regalo más hermoso que la vida me pudo dar.
+
+    Gracias por elegirme,
+    gracias por amarme,
+    gracias por formar esta familia conmigo.
+
+    Prometo cuidarte a ti y a nuestro bebé
+    todos los días de mi vida.
+
+    Te amo con todo mi corazón 💖
+    A21D
+    `;
+};
+
+/* Corazones constantes */
+setInterval(()=>{
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.className = "heart";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>{ heart.remove(); },6000);
+},500);
+
+</script>
+
+</body>
+</html>
